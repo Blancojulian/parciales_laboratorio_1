@@ -2,7 +2,7 @@
  * Cliente.c
  *
  *  Created on: 2 may. 2021
- *      Author: Planton1911
+ *      Author: Blanco Julián Agustín
  */
 
 
@@ -12,6 +12,7 @@
 #include <float.h>
 #include <limits.h>
 #include "Cliente.h"
+#include "Color.h"
 #include "utn.h"
 
 static int generateNewId(void);
