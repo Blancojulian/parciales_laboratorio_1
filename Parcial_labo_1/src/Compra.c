@@ -85,12 +85,12 @@ int compra_add(Compra* list, int len, Cliente* listCliente, int lenCliente, Colo
 			utn_getText(buffer.direccion, "Ingrese la direccion: ", "Direccion invalido.\n", 2, LONG_DIRECTION) == 0)
 		{
 			buffer.isEmpty = 0;
-			buffer.estado = COBRADO;
+			buffer.estado = PENDIENTE;
 			buffer.idCompra = generateNewId();
 			list[index] = buffer;
 			list[index].idCliente = listCliente[indexCliente].idCliente;
 			list[index].idColorBarbijos = listColor[indexColor].idColorBarbijos;
-			avi_showAds(list, index);
+			compra_showBuys(list, index);
 			retorno = 0;
 		}
 		else
@@ -170,14 +170,14 @@ int compra_changeStatus(Compra* list, int len, Cliente* listCliente, int lenClie
 	if(list != NULL && len > 0 && listCliente != NULL && lenCliente  > 0 && (state >= 0 || state <= 1))
 	{
 		compra_mostrarComprasCobradasOPausadas(list, len, !state);
-		if( ((state == 1 && utn_getNumberInt(&idChange, "Ingrese el ID del aviso que quiere reanudar: ", "ID invalido.\n", 1, INT_MAX, 2) == 0 &&
+		if( ((state == 1 && utn_getNumberInt(&idChange, "Ingrese el ID de la compra que quiere pagar: ", "ID invalido.\n", 1, INT_MAX, 2) == 0 &&
 			compra_findById(list, len, idChange, &indexChange) == 0 && list[indexChange].estado != state &&
 			cli_findById(listCliente, lenCliente, list[indexChange].idCliente, &indexCliente) == 0 && cli_showClient(listCliente, indexCliente) == 0)
 				||
-			(state == 0 && utn_getNumberInt(&idChange, "Ingrese el id del aviso que quiere pausar: ", "ID invalido.\n", 1, INT_MAX, 2) == 0 &&
+			(state == 0 && utn_getNumberInt(&idChange, "Ingrese el ID de la compra que quiere cancelar el pago: ", "ID invalido.\n", 1, INT_MAX, 2) == 0 &&
 			compra_findById(list, len, idChange, &indexChange) == 0 && list[indexChange].estado != state &&
 			cli_findById(listCliente, lenCliente, list[indexChange].idCliente, &indexCliente) == 0 && cli_showClient(listCliente, indexCliente) == 0)) &&
-			utn_getNumberInt(&respuesta, "¿Desea cambiar el estado del aviso? (1- Si/2- No): ", "Error.\n", SI, NO, 2) == 0)
+			utn_getNumberInt(&respuesta, "¿Desea cambiar el estado de la compra? (1- Si/2- No): ", "Error.\n", SI, NO, 2) == 0)
 		{
 			if(respuesta == 1)
 			{
@@ -424,7 +424,7 @@ int compra_altaForzada(Compra* list, Color listColor, int len, int idCliente, fl
 			list[index].cantidadBarbijos = cantidadBarbijos;
 			list[index].precio = precio;
 			list[index].idColorBarbijos = idColor;
-			list[index].estado = COBRADO;
+			list[index].estado = PENDIENTE;
 			list[index].idCompra = generateNewId();
 			list[index].isEmpty = 0;
 			col_colorFindById(listColor,LONG_COLOUR, idColor, list[index].colorBarbijos);
